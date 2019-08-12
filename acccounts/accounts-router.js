@@ -5,7 +5,17 @@ const db = require("../data/dbConfig.js");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  db("accounts")
+  const { limit, orderby } = req.query;
+  console.log(orderby);
+  const query = db("accounts");
+  if (limit) {
+    query.limit(limit);
+  }
+  if (orderby) {
+    query.orderBy(orderby[0], orderby[1]);
+  }
+
+  query
     .then(accounts => {
       res.status(200).json(accounts);
     })
