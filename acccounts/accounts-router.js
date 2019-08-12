@@ -21,8 +21,10 @@ router.get("/:id", (req, res) => {
   db("accounts")
     .where({ id: id })
     .then(account => {
-      if (id) {
-        return res.status(200).json(account[0]);
+      if (account[0]) {
+        res.status(200).json(account[0]);
+      } else {
+        res.status(404).json({ message: "Account does not exist" });
       }
     })
     .catch(err => {
